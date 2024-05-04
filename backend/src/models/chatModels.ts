@@ -4,8 +4,6 @@ import { randomUUID } from "crypto";
 let chatSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: true,
-        unique: true,
         default: randomUUID()
     },
     role: {
