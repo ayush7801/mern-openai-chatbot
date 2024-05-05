@@ -1,3 +1,4 @@
+import exp from 'constants';
 import express from 'express';
 import { ContextRunner, body, validationResult } from "express-validator";
 
@@ -24,3 +25,7 @@ export const signUpValidator = [
     body("email").trim().isEmail().withMessage("Invalid email address"),
     body("password").isLength({ min: 5 }).withMessage("Password must be at least 5 characters long")
 ];
+
+export const logInValidator = [
+    body('email').isEmail().withMessage('Invalid email address')
+]
