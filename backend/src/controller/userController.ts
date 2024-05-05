@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import { compare, hash } from "bcrypt";
 import User from "../models/userModels.js"; // Import the User model
+import { createToken } from "../utils/token-manager.js";
+import { Constants } from "../utils/constants.js";
 
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -34,6 +36,28 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
         const hashedPassword = await hash(password, 10);
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
+
+        // clear previous cookies and send new cookie with jwt token
+        res.clearCookie(Constants.AUTH_COOKIE_NAME, {
+            path: '/',
+            domain: 'localhost',
+            signed: true,
+            httpOnly: true
+        });
+        // this payload will be encypted in jwt token
+        const payload = {
+            id: newUser._id,
+            email: newUser.email
+        }
+        const token = createToken(payload, '7d');
+        res.cookie(Constants.AUTH_COOKIE_NAME, token, { 
+            path: '/',
+            domain: 'localhost',
+            signed: true,
+            expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+            httpOnly: true 
+        });
+
         res.status(201).json({
             status: 'success',
             message: 'User created successfully',
@@ -62,11 +86,34 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
                     status: 'fail',
                     message: 'Invalid password!!!'
                 });
-            }else{
+            } else {
+                const currentUser = user[0];
+
+                // clear previous cookies and send new cookie with jwt token
+                res.clearCookie(Constants.AUTH_COOKIE_NAME, {
+                    path: '/',
+                    domain: 'localhost',
+                    signed: true,
+                    httpOnly: true
+                });
+                const payload = {
+                    id: currentUser._id,
+                    email: currentUser.email
+                }
+                const token = createToken(payload, '7d');
+                res.cookie(Constants.AUTH_COOKIE_NAME, token, { 
+                    path: '/',
+                    domain: 'localhost',
+                    signed: true,
+                    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+                    httpOnly: true 
+                });
+
+                // set final response
                 res.status(200).json({
                     status: 'success',
                     message: 'User logged in successfully',
-                    userId: user[0]._id.toString()
+                    userId: currentUser._id.toString()
                 });
             }
         } 
