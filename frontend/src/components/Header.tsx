@@ -1,8 +1,14 @@
 import React from 'react'
+import { AppBar, Toolbar } from '@mui/material'
+import Logo from '../utils/Logo'
 
 const Header = () => {
   return (
-    <div>Header</div>
+    <AppBar sx={{bgcolor: '#102C57', position: 'static', boxShadow: 'none'}}>
+      <Toolbar>
+        <Logo />
+      </Toolbar>
+    </AppBar>
   )
 }
 
