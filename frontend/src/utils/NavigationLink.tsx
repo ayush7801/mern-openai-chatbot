@@ -1,6 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
+import './NavigationLink.css'
+
 type NavigationLinkProps = {
     to: string;
     text: string;
@@ -11,7 +13,7 @@ type NavigationLinkProps = {
 
 const NavigationLink = (props: NavigationLinkProps) => {
   return (
-    <Link to={props.to} style={{background: props.bg, color: props.textColor}}>{props.text}</Link>
+    <Link className='nav-link' to={props.to} style={{background: props.bg, color: props.textColor}}>{props.text}</Link>
   )
 }
 
