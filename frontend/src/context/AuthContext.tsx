@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { userLoginAPI } from "../apiCalls/userApiCalls";
+import toast from "react-hot-toast";
 
 type User = {
     name: string;
@@ -21,10 +23,21 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
     useEffect(() => {}, []);
 
     const login = async (email: string, password: string) => {
-        // make a request to the server to login
-        // if successful, set the user and isLoggedIn to true
-        setUser({name: 'John Doe', email});
-        setIsLoggedIn(true);
+        toast.loading('Logging in...', {id: 'login'});
+        return new Promise<void>( async (resolve, reject) => {
+            // make a request to the server to login
+            const res: any = await userLoginAPI(email, password);
+            if (res instanceof Error) {
+                console.log("Some error occurred while logging in user: ", res);
+                toast.error('Logging in failed...', {id: 'login'});
+                return reject();
+            }
+            // if successful, set the user and isLoggedIn to true
+            setUser({name: res.name, email: res.email});
+            setIsLoggedIn(true);
+            toast.success('Successfully logged in...', {id: 'login'});
+            return resolve();
+        });
     }
 
     const signup = async (name: string, email: string, password: string) => {

@@ -3,6 +3,7 @@ import { Typography } from '@mui/material'
 import { Link } from 'react-router-dom'
 
 import './Logo.css'
+import { Constants } from '../constants/constants'
 
 const Logo = () => {
   return (
@@ -21,8 +22,9 @@ const Logo = () => {
                 display: {xs: 'none' ,sm: 'none', md: 'block'},
                 fontWeight: '700',
                 letterSpacing: '1px',
+                color: '#000',
             }}>
-                <span style={{fontSize: '22px'}}>D</span>ino-<span style={{color: '#00ff19'}}>GPT</span>
+                <span style={{fontSize: '22px'}}>{Constants.APP_NAME}</span>
             </Typography>
         </Link>
     </div>

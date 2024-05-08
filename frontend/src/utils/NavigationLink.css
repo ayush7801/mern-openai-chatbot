@@ -7,3 +7,7 @@
     text-decoration: none;
     letter-spacing: 1px;
 }
+
+.nav-link:hover{
+    background-color: #888888;
+}

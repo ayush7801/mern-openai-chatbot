@@ -4,20 +4,22 @@ import Logo from '../utils/Logo'
 import NavigationLink from '../utils/NavigationLink'
 import { useAuth } from '../context/AuthContext'
 
+// box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+
 const Header = () => {
   const auth = useAuth();
   return (
-    <AppBar sx={{bgcolor: '#102C57', boxShadow: 'none'}}>
+    <AppBar sx={{bgcolor: '#cccccc', boxShadow: 'none'}}>
       <Toolbar>
         <Logo />
         <div>
             { 
                 auth?.isLoggedIn ? <>
-                    <NavigationLink to='/chat' text='Go to chat' bg='#EADBC8' textColor='black' />
-                    <NavigationLink to='/' text='Logout' bg='#FEFAF6' textColor='black' onClick={auth.logout} />
+                    <NavigationLink to='/chat' text='Go to chat' bg='#fff' textColor='black' />
+                    <NavigationLink to='/' text='Logout' bg='#fff' textColor='black' onClick={auth.logout} />
                 </> : <>
-                    <NavigationLink to='/login' text='LogIn' bg='#EADBC8' textColor='black' />
-                    <NavigationLink to='/signup' text='Signup' bg='#FEFAF6' textColor='black' />
+                    <NavigationLink to='/login' text='LogIn' bg='#fff' textColor='black' />
+                    <NavigationLink to='/signup' text='Signup' bg='#fff' textColor='black' />
                 </>
             }
         </div>
