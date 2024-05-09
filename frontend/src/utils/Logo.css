@@ -1,0 +1,8 @@
+.image-container{
+    display: flex;
+    align-content: center;
+    padding: 2px;
+    text-decoration: none;
+    background-color: white;
+    border-radius: 100%;
+}
