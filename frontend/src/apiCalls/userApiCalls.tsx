@@ -18,4 +18,19 @@ const userLoginAPI = async (email: string, password: string) => {
     }
 }
 
-export { userLoginAPI }
+const userTokenAuthentication = async () => {
+    try {
+        const res = await axios.get(`/users/auth-status`);
+        console.log(res);
+        if (res.status === 200) {
+            console.log("User authenticated successfully");
+            return await res.data;
+        }
+    } catch (err) {
+        console.error(`Some error occurred while authenticating user with status code ${(err as any)?.response?.status}: and message: ${(err as any)?.response?.data?.message}`);
+        console.error("Some error occurred while authenticating user: ", err);
+        return err;
+    }
+}
+
+export { userLoginAPI, userTokenAuthentication }

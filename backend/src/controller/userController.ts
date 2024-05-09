@@ -138,4 +138,41 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export { getAllUsers, userSignup, userLogin };
+const userAuthStatus = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // User Authentication Status
+        console.log(res.locals.jwtUser);
+        const user = await User.findById(res.locals.jwtUser.id);
+        console.log(user);
+        if(!user) {
+            res.status(401).json({
+                status: 'fail',
+                message: 'Token is valid but user not found'
+            });
+        }
+        else if(user._id.toString() !== res.locals.jwtUser.id) {
+            res.status(403).json({
+                status: 'fail',
+                message: `Permission didn't match`
+            });
+        }
+        else{
+            // set final response
+            res.status(200).json({
+                status: 'success',
+                message: 'User logged in successfully',
+                userId: user._id.toString(),
+                name: user.name,
+                email: user.email
+            });
+        }
+    }catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: err.message
+        });
+    }
+}
+
+export { getAllUsers, userSignup, userLogin, userAuthStatus}

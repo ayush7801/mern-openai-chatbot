@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { userLoginAPI } from "../apiCalls/userApiCalls";
+import { userLoginAPI, userTokenAuthentication } from "../apiCalls/userApiCalls";
 import toast from "react-hot-toast";
 
 type User = {
@@ -20,10 +20,34 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
     const [user, setUser] = useState<User | null>(null);
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        // make a request to the server to check if the user is logged in
+        // if the user is logged in, set the user and isLoggedIn to true
+        // else set the user and isLoggedIn to false
+        async function checkUserAuthStatus() {
+            toast.loading('Authenticating User...', {id: 'login'});
+
+            return new Promise<void>( async (resolve, reject) => {
+                // make a request to the server to login
+                const res: any = await userTokenAuthentication();
+                if (res instanceof Error) {
+                    console.log("Some error occurred while Authenticating user: ", res);
+                    toast.error('Authentication failed, log in again...', {id: 'login'});
+                    return reject();
+                }
+                // if successful, set the user and isLoggedIn to true
+                setUser({name: res.name, email: res.email});
+                setIsLoggedIn(true);
+                toast.success('Successfully Authenticated...', {id: 'login'});
+                return resolve();
+            });
+        }
+        checkUserAuthStatus();
+    }, []);
 
     const login = async (email: string, password: string) => {
         toast.loading('Logging in...', {id: 'login'});
+
         return new Promise<void>( async (resolve, reject) => {
             // make a request to the server to login
             const res: any = await userLoginAPI(email, password);
