@@ -21,7 +21,6 @@ const userLoginAPI = async (email: string, password: string) => {
 const userTokenAuthentication = async () => {
     try {
         const res = await axios.get(`/users/auth-status`);
-        console.log(res);
         if (res.status === 200) {
             console.log("User authenticated successfully");
             return await res.data;

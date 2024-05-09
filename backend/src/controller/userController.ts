@@ -143,9 +143,7 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
 const userAuthStatus = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // User Authentication Status
-        console.log(res.locals.jwtUser);
         const user = await User.findById(res.locals.jwtUser.id);
-        console.log(user);
         if(!user) {
             res.status(401).json({
                 status: 'fail',
