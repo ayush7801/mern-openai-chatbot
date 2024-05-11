@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { compare, hash } from "bcrypt";
 import User from "../models/userModels.js"; // Import the User model
 import { createToken } from "../utils/token-manager.js";
-import { Constants } from "../utils/constants.js";
+import { Constants } from "../constants/constants.js";
 
 const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {

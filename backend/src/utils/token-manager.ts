@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { Constants } from './constants.js';
+import { Constants } from '../constants/constants.js';
 
 export const createToken = (payload: Object, expiresIn: string) => {
     return jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn });
