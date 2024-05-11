@@ -12,7 +12,6 @@ export const validateRequest = (validations: ContextRunner[]) => {
         if (errors.isEmpty()) {
             return next();
         }
-    
         return res.status(422).json({
             message: "Request body validation failed",
             errors: errors.array()

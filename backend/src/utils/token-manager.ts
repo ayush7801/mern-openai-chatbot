@@ -15,7 +15,7 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
         if (err) {
             return res.status(401).json({ message: 'Unauthorized' });
         }
-        res.locals.jwtUser = decoded;
+        res.locals.jwtdata = decoded;
         return next();
     });
 }

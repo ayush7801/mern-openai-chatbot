@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext'
 const Header = () => {
   const auth = useAuth();
   return (
-    <AppBar sx={{bgcolor: '#cccccc', boxShadow: 'none'}}>
+    <AppBar sx={{bgcolor: '#cccccc', boxShadow: 'none', position: 'static'}}>
       <Toolbar>
         <Logo />
         <div>

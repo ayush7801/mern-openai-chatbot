@@ -18,7 +18,7 @@ const generateChatCompletion = async (req: Request, res: Response, next: NextFun
         const chats = user.chats as ChatCompletionRequestMessage[];
         chats.push({role: 'user', content: message});
         user.chats.push({role: 'user', content: message});
-        // send chata to openapi server
+        // send chat to openapi server
         const config = openaiConfig();
         const openai = new OpenAIApi(config);
         const chatResponse = await openai.createChatCompletion({
