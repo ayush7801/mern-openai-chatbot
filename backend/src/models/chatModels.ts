@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
 import { randomUUID } from "crypto";
 
+let PartsSchema = new mongoose.Schema({
+    text: {
+        type: String,
+        required: true
+    }
+});
+
 let chatSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -10,8 +17,8 @@ let chatSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    content: {
-        type: String,
+    parts: {
+        type: [PartsSchema],
         required: true
     }
 });

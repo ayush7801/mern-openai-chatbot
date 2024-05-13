@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, IconButton, MenuItem, Select, Typography } from '@mui/material'
 import { MdOutlineArrowUpward } from 'react-icons/md';
 import toast from 'react-hot-toast';
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Constants } from '../constants/constants';
 import { red } from '@mui/material/colors';
@@ -10,9 +10,13 @@ import ChatItem from '../components/ChatItem';
 import './Chats.css'
 import { sendChatRequest } from '../apiCalls/userApiCalls';
 
+type partsType = {
+  text: string;
+}
+
 type chatMessagesType = {
-  role: "user" | "assistant";
-  content: string;
+  role: "user" | "model";
+  content: partsType[];
 }
 
 const Chats = () => {
@@ -39,6 +43,12 @@ const Chats = () => {
     }
     const chats = response.chats as chatMessagesType[];
     setChatMessages(chats);
+  }
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if(e.key === 'Enter'){
+      handleSubmit();
+    }
   }
 
   return (
@@ -69,11 +79,11 @@ const Chats = () => {
           </Select>
         </Box>
         <Box sx={{width: '100%', flex: 1, borderRadius: 3, mx: 'auto', display: 'flex', flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', scrollBehavior: 'smooth'}}>
-          {chatMessages.map((chat, index) => <ChatItem role={chat.role as "user" | "assistant"} content={chat.content} key={index}/>)}
+          {chatMessages.map((chat, index) => <ChatItem role={chat.role as "user" | "model"} content={chat.parts[0].text} key={index}/>)}
         </Box>
         <Box sx={{display: 'flex', flex: 0.1, m: 3, justifyContent: 'center', alignItems: 'flex-end'}}>
           <Box className='chat-container' sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
-            <input type='text' ref={messageInputRef} className='chat-input' placeholder='Message GPT'></input>
+            <input type='text' ref={messageInputRef} className='chat-input' placeholder='Message GPT' onKeyUp={handleKeyPress}></input>
             <MdOutlineArrowUpward className='enter-input-button' onClick={handleSubmit} />
           </Box>
         </Box>

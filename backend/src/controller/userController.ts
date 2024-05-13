@@ -57,7 +57,7 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
             expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             httpOnly: true 
         });
-
+        
         res.status(201).json({
             status: 'success',
             message: 'User created successfully',

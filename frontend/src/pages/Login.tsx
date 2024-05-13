@@ -23,10 +23,7 @@ const Login = () => {
   }
 
   return (
-    <Box width='100%' height ='100vh' pt={5} display='flex' justifyContent='space-evenly' alignItems='center' flex={1}>
-      <Box justifyContent='center' alignItems='center' display={{md: 'flex', sm: 'none', xs: 'none'}}>
-        <img src='./airobot.png' alt='AI Robot Image' style={{width: '300px'}}></img>
-      </Box>
+    <Box width='100%' height ='90vh' pt={5} display='flex' justifyContent='space-evenly' alignItems='center' flex={1}>
       <Box display={'flex'} justifyContent='center' alignItems='center' flex={{xs: 1, md: 0.5}} padding={2}>
         <form 
         onSubmit={(e) => {handleSubmit(e)}}
