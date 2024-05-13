@@ -9,10 +9,6 @@ let PartsSchema = new mongoose.Schema({
 });
 
 let chatSchema = new mongoose.Schema({
-    id: {
-        type: String,
-        default: randomUUID()
-    },
     role: {
         type: String,
         required: true

@@ -57,7 +57,7 @@ const Chats = () => {
       <Box sx={{display: {md: 'flex', sm: 'none', xs: 'none'}, flex: 0.2, flexDirection: 'column'}}>
         <Box sx={{display: 'flex', width: '100%', height: '90vh', bgcolor: '#F8F6F4', flexDirection: 'column', alignItems: 'center'}}>
           <Avatar sx={{color: 'black', bgcolor: 'white', mx: 'auto', my: 2, fontWeight: 700}}>
-            {auth?.user?.name[0] + '' + auth?.user?.name.split(' ')[1][0]}
+            {auth?.user?.name[0].toUpperCase() + '' + auth?.user?.name[1].toUpperCase()}
           </Avatar>
           <Typography variant='h6' sx={{color: 'rgb(110, 110, 110)', mx: 'auto', fontWeight: 'bold', fontFamily: 'work sans'}}>
             You are talking to AI

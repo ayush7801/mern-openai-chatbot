@@ -21,7 +21,7 @@ const ChatItem = ({ role, content }: ChatItemProps) => {
       : <>
         <Box sx={{display: 'flex', p: 1, gap: 2, alignItems: 'center'}}>
           <Avatar sx={{ml: 0, bgcolor: 'black', color: 'white'}}>
-            {auth?.user?.name[0] + '' + auth?.user?.name.split(' ')[1][0]}
+            {auth?.user?.name[0].toUpperCase() + '' + auth?.user?.name[1].toUpperCase()}
           </Avatar>
           <Box sx={{display: 'flex', alignItems: 'center'}}>
             <Typography sx={{fontSize: '1rem', color: 'black', fontFamily: 'work sans'}}>{content}</Typography>

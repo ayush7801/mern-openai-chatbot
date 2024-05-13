@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, json, text } from "express";
 import User from "../models/userModels.js";
-import { model } from '../config/geminiaiConfig.js';
+import geminiConfigObject from '../config/geminiaiConfig.js';
 
 const generateChatCompletion = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -14,9 +14,16 @@ const generateChatCompletion = async (req: Request, res: Response, next: NextFun
             });
         // get chats of user
         const chats = user.chats;
-    
+
         user.chats.push({role: 'user', parts: [{ text: message }]});
-        
+        const filterdChats = chats.map(chat => {
+            return {
+                role: chat.role,
+                parts: chat.parts.map(part => {
+                    return { text: part.text };
+                })
+            };
+        });
         // send chat to openapi server
         // const config = openaiConfig();
         // const openai = new OpenAIApi(config);
@@ -26,18 +33,18 @@ const generateChatCompletion = async (req: Request, res: Response, next: NextFun
         // });
 
         // ...
+        console.log("chats", ...filterdChats);
+        const chatInstance = await geminiConfigObject.getGeminiModel().startChat({
+            history: filterdChats,
+            generationConfig: {
+                maxOutputTokens: 100,
+            },
+        });
 
-        const chatInstance = await model.generateContent(message);
-        // {
-        //     history: chats,
-        //     generationConfig: {
-        //         maxOutputTokens: 100,
-        //     },
-        // }
-
-        // const newChatMessage = await chatInstance.sendMessage(message);
-        const aiResponse = await chatInstance.response;
-        user.chats.push({ role: 'model', parts: [{ text: aiResponse.text() }] });
+        const newChatMessage = await chatInstance.sendMessage(message);
+        const aiResponse = await newChatMessage.response;
+        console.log("aiResponse", aiResponse.text());
+        user.chats.push({ role: 'model', parts: [{ text: aiResponse.text() || "It's out of my limits, is their any other way i can help you."}] });
         await user.save();
         return res.status(200).json({
             status: 'success',
@@ -53,7 +60,3 @@ const generateChatCompletion = async (req: Request, res: Response, next: NextFun
 }
 
 export { generateChatCompletion };
-
-function geminiaiConfig() {
-    throw new Error("Function not implemented.");
-}
