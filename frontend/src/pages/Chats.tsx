@@ -16,7 +16,7 @@ type partsType = {
 
 type chatMessagesType = {
   role: "user" | "model";
-  content: partsType[];
+  parts: partsType[];
 }
 
 const Chats = () => {
@@ -25,18 +25,19 @@ const Chats = () => {
   const messageInputRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = async () => {
-    const content = messageInputRef.current?.value as string;
+    const userMessage = messageInputRef.current?.value as string;
     if(messageInputRef && messageInputRef.current) {
       messageInputRef.current.value = '';
     }
-    if (!content){
+    if (userMessage.length === 0){
       toast('Please enter a message', {icon: '🤦‍♂️'});
+      return;
     };
-    const newMessage: chatMessagesType= {role: 'user', content: content};
+    const newMessage: chatMessagesType = {role: 'user', parts: [{text: userMessage}]};
     setChatMessages([...chatMessages, newMessage]);
     
     // Send message to backend
-    const response = await sendChatRequest(content);
+    const response = await sendChatRequest(userMessage);
     if(response instanceof Error){
       toast('Some error occurred while sending chat request', {icon: '😢'});
       return;

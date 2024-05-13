@@ -143,14 +143,14 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
 const userAuthStatus = async (req: Request, res: Response, next: NextFunction) => {
     try {
         // User Authentication Status
-        const user = await User.findById(res.locals.jwtUser.id);
+        const user = await User.findById(res.locals.jwtdata.id);
         if(!user) {
             res.status(401).json({
                 status: 'fail',
                 message: 'Token is valid but user not found'
             });
         }
-        else if(user._id.toString() !== res.locals.jwtUser.id) {
+        else if(user._id.toString() !== res.locals.jwtdata.id) {
             res.status(403).json({
                 status: 'fail',
                 message: `Permission didn't match`
