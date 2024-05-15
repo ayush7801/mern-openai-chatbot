@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { userLoginAPI, userTokenAuthentication } from "../apiCalls/userApiCalls";
+import { logOut, userLoginAPI, userTokenAuthentication, usersignupAPI } from "../apiCalls/userApiCalls";
 import toast from "react-hot-toast";
 
 type User = {
@@ -65,17 +65,42 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
     }
 
     const signup = async (name: string, email: string, password: string) => {
-        // make a request to the server to signup
-        // if successful, set the user and isLoggedIn to true
-        setUser({name, email});
-        setIsLoggedIn(true);
+        toast.loading('Signing up...', {id: 'signup'});
+
+        return new Promise<void>( async (resolve, reject) => {
+            // make a request to the server to login
+            const res: any = await usersignupAPI(name, email, password);
+            if (res instanceof Error) {
+                console.log("Some error occurred while Signing up user: ", res);
+                toast.error('Signing up failed...', {id: 'signup'});
+                return reject();
+            }
+            // if successful, set the user and isLoggedIn to true
+            setUser({name: res.name, email: res.email});
+            setIsLoggedIn(true);
+            toast.success('Successfully signed up...', {id: 'signup'});
+            return resolve();
+        });
     }
 
     const logout = async () => {
+        toast.loading('Logging out...', {id: 'logout'});
+        console.log("Logging out user...");
+        try{
         // make a request to the server to logout
+        const res = await logOut();
+        if (res instanceof Error) {
+            toast.error('Logging out failed...', {id: 'logout'});
+            return;
+        }
         // if successful, set the user and isLoggedIn to false
         setUser(null);
         setIsLoggedIn(false);
+        toast.success('Successfully logged out...', {id: 'logout'});
+        } catch(err){
+            console.error("Some error occurred while logging out user: ", err);
+            toast.error('Logging out failed...', {id: 'logout'});
+        }
     }
 
     return (

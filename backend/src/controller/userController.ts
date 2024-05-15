@@ -61,7 +61,9 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
         res.status(201).json({
             status: 'success',
             message: 'User created successfully',
-            userId: newUser._id.toString()
+            userId: newUser._id.toString(),
+            name: newUser.name,
+            email: newUser.email
         });
     }
     catch (err) {
@@ -175,4 +177,26 @@ const userAuthStatus = async (req: Request, res: Response, next: NextFunction) =
     }
 }
 
-export { getAllUsers, userSignup, userLogin, userAuthStatus}
+const userLogout = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // User Logout
+        res.clearCookie(Constants.AUTH_COOKIE_NAME, {
+            path: '/',
+            domain: 'localhost',
+            signed: true,
+            httpOnly: true
+        });
+        res.status(200).json({
+            status: 'success',
+            message: 'User logged out successfully'
+        });
+    }catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: err.message
+        });
+    }
+}
+
+export { getAllUsers, userSignup, userLogin, userAuthStatus, userLogout}

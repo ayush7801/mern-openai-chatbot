@@ -1,5 +1,24 @@
 import axios from "axios";
 
+const usersignupAPI = async (name: string, email: string, password: string) => {
+    try {
+        const user_req_body = {
+            name: name,
+            email: email,
+            password: password
+        }
+        const res = await axios.post(`/users/signup`, user_req_body);
+        if (res.status === 200) {
+            console.log("User signed up successfully");
+            return await res.data;
+        }
+    } catch (err) {
+        console.error(`Some error occurred while signing up user with status code ${(err as any)?.response?.status}: and message: ${(err as any)?.response?.data?.message}`);
+        console.error("Some error occurred while signing up user: ", err);
+        return err;
+    }
+}
+
 const userLoginAPI = async (email: string, password: string) => {
     try {
         const user_req_body = {
@@ -72,4 +91,18 @@ const clearChat = async () => {
     }
 }
 
-export { userLoginAPI, userTokenAuthentication, sendChatRequest, getChatHistory, clearChat }
+const logOut = async () => {
+    try {
+        const res = await axios.post(`/users/logout`);
+        if (res.status === 200) {
+            console.log("User logged out successfully");
+            return await res.data;
+        }
+    } catch (err) {
+        console.error(`Some error occurred while logging out user with status code ${(err as any)?.response?.status}: and message: ${(err as any)?.response?.data?.message}`);
+        console.error("Some error occurred while logging out user: ", err);
+        return err;
+    }
+}
+
+export { userLoginAPI, userTokenAuthentication, sendChatRequest, getChatHistory, clearChat, logOut, usersignupAPI }

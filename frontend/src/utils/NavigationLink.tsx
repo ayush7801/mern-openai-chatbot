@@ -13,7 +13,7 @@ type NavigationLinkProps = {
 
 const NavigationLink = (props: NavigationLinkProps) => {
   return (
-    <Link className='nav-link' to={props.to} style={{background: props.bg, color: props.textColor}}>{props.text}</Link>
+    <Link className='nav-link' to={props.to} onClick={props.onClick} style={{background: props.bg, color: props.textColor}}>{props.text}</Link>
   )
 }
 
