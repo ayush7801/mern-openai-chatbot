@@ -46,4 +46,30 @@ const sendChatRequest = async (message: string) => {
     }
 }
 
-export { userLoginAPI, userTokenAuthentication, sendChatRequest }
+const getChatHistory = async () => {
+    try{
+        const res = await axios.post(`/chats/getChatHistory`);
+        if(res.status === 200){
+            return await res.data;
+        }
+        throw new Error(res.data.message);
+    }catch(err){
+        console.error(`Some error occurred while sending chat request with status code ${(err as any)?.response?.status}: and message: ${(err as any)?.response?.data?.message as string}`);
+        return err;
+    }
+}
+
+const clearChat = async () => {
+    try{
+        const res = await axios.post(`/chats/clearChat`);
+        if(res.status === 200){
+            return await res.data;
+        }
+        throw new Error(res.data.message);
+    }catch(err){
+        console.error(`Some error occurred while sending chat request with status code ${(err as any)?.response?.status}and message: ${(err as any)?.response?.data?.message as string}`);
+        return err;
+    }
+}
+
+export { userLoginAPI, userTokenAuthentication, sendChatRequest, getChatHistory, clearChat }

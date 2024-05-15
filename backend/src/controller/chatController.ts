@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction, json, text } from "express";
+import { Request, Response, NextFunction } from "express";
 import User from "../models/userModels.js";
 import geminiConfigObject from '../config/geminiaiConfig.js';
 
@@ -43,8 +43,7 @@ const generateChatCompletion = async (req: Request, res: Response, next: NextFun
 
         const newChatMessage = await chatInstance.sendMessage(message);
         const aiResponse = await newChatMessage.response;
-        console.log("aiResponse", aiResponse.text());
-        user.chats.push({ role: 'model', parts: [{ text: aiResponse.text() || "It's out of my limits, is their any other way i can help you."}] });
+        user.chats.push({ role: 'model', parts: [{ text: aiResponse.text() || "It's out of my limits, is their any other way i can help you?"}] });
         await user.save();
         return res.status(200).json({
             status: 'success',
@@ -59,4 +58,53 @@ const generateChatCompletion = async (req: Request, res: Response, next: NextFun
     }
 }
 
-export { generateChatCompletion };
+const getChatHistory = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // Get chat history logic
+        const userId = res.locals.jwtdata.id;
+        const user = await User.findById(userId)
+        if(!user)
+            return res.status(401).json({
+                status: 'fail',
+                message: 'Token is valid but user not found'
+            });
+        const chats = user.chats;
+        res.status(200).json({
+            status: 'success',
+            chats: chats
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: err.message
+        });
+    }
+}
+
+const clearChat = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userId = res.locals.jwtdata.id;
+        const user = await User.findById(userId);
+        if(!user)
+            return res.status(401).json({
+                status: 'fail',
+                message: 'Token is valid but user not found'
+            });
+        user.chats.splice(0, user.chats.length);
+        await user.save();
+        return res.status(200).json({
+            status: 'success',
+            message: 'Chat cleared successfully',
+            chats: user.chats
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: err.message
+        });
+    }
+}
+
+export { generateChatCompletion, getChatHistory, clearChat };

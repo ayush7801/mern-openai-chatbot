@@ -8,7 +8,7 @@ import { red } from '@mui/material/colors';
 import ChatItem from '../components/ChatItem';
 
 import './Chats.css'
-import { sendChatRequest } from '../apiCalls/userApiCalls';
+import { clearChat, getChatHistory, sendChatRequest } from '../apiCalls/userApiCalls';
 
 type partsType = {
   text: string;
@@ -23,6 +23,27 @@ const Chats = () => {
   const auth = useAuth();
   const [chatMessages, setChatMessages] = useState<chatMessagesType[]>([]);
   const messageInputRef = useRef<HTMLInputElement>(null);
+  const lastChatItemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+      if(auth?.isLoggedIn && auth?.user !== null){
+        toast.loading('Loading chat history', {id: 'chat history'});
+        getChatHistory().then((response) => {
+          if(response instanceof Error){
+            toast.error('Some error occurred while fetching chat history', {id: 'chat history'});
+            return;
+          }
+          const chats = response.chats as chatMessagesType[];
+          setChatMessages(chats);
+          toast.success('Chat history loaded successfully', {id: 'chat history'});
+        });
+      }
+  }, [auth])
+
+  useEffect(() => {
+    if(lastChatItemRef.current && chatMessages.length > 0)
+      lastChatItemRef.current?.scrollIntoView({behavior: 'smooth'});
+  }, [chatMessages])
 
   const handleSubmit = async () => {
     const userMessage = messageInputRef.current?.value as string;
@@ -47,9 +68,22 @@ const Chats = () => {
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(e.key === 'Enter'){
+    if(e.key === 'Enter'  && e.target instanceof HTMLInputElement && e.target.type !== 'select-one'){
       handleSubmit();
     }
+  }
+
+  const handleClearChat = async () => {
+    toast.loading('Clearing chat history', {id: 'clear chat history'});
+    // Clear chat history
+    const response = await clearChat();
+    if(response instanceof Error){
+      toast.error('Some error occurred while clearing chat history', {id: 'clear chat history'});
+      return;
+    }
+    const chats = response.chats as chatMessagesType[];
+    setChatMessages(chats);
+    toast.success('Chat history cleared successfully', {id: 'clear chat history'});
   }
 
   return (
@@ -66,7 +100,7 @@ const Chats = () => {
             {Constants.AI_DISCLAIMER}
           </Typography> 
           <Box sx={{display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', flex: 1}}>
-            <Button sx={{width: '16rem', height: '3rem', mb: 3, color: 'white', fontWeight: '700', borderRadius: 3, mx: 3, bgcolor: red[400], ":hover": { bgcolor: red.A100 }}}>
+            <Button sx={{width: '16rem', height: '3rem', mb: 3, color: 'white', fontWeight: '700', borderRadius: 3, mx: 3, bgcolor: red[400], ":hover": { bgcolor: red.A100 }}} onClick={handleClearChat}>
               Clear Conversation
             </Button>
           </Box>
@@ -80,7 +114,7 @@ const Chats = () => {
           </Select>
         </Box>
         <Box sx={{width: '100%', flex: 1, borderRadius: 3, mx: 'auto', display: 'flex', flexDirection: 'column', overflowY: 'auto', overflowX: 'hidden', scrollBehavior: 'smooth'}}>
-          {chatMessages.map((chat, index) => <ChatItem role={chat.role as "user" | "model"} content={chat.parts[0].text} key={index}/>)}
+          {chatMessages.map((chat, index) => index === chatMessages.length - 1 ? <ChatItem role={chat.role as "user" | "model"} content={chat.parts[0].text} key={index} ref={lastChatItemRef}/> : <ChatItem role={chat.role as "user" | "model"} content={chat.parts[0].text} key={index}/>)}
         </Box>
         <Box sx={{display: 'flex', flex: 0.1, m: 3, justifyContent: 'center', alignItems: 'flex-end'}}>
           <Box className='chat-container' sx={{display: 'flex', gap: 1, alignItems: 'center'}}>
