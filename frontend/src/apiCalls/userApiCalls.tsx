@@ -8,8 +8,7 @@ const usersignupAPI = async (name: string, email: string, password: string) => {
             password: password
         }
         const res = await axios.post(`/users/signup`, user_req_body);
-        if (res.status === 200) {
-            console.log("User signed up successfully");
+        if (res.status === 201) {
             return await res.data;
         }
     } catch (err) {
@@ -27,7 +26,6 @@ const userLoginAPI = async (email: string, password: string) => {
         }
         const res = await axios.post(`/users/login`, user_req_body);
         if (res.status === 200) {
-            console.log("User logged in successfully");
             return await res.data;
         }
     } catch (err) {
@@ -41,7 +39,6 @@ const userTokenAuthentication = async () => {
     try {
         const res = await axios.get(`/users/auth-status`);
         if (res.status === 200) {
-            console.log("User authenticated successfully");
             return await res.data;
         }
     } catch (err) {
@@ -55,7 +52,6 @@ const sendChatRequest = async (message: string) => {
     try{
         const res = await axios.post(`/chats/generateChatCompletion`, {message});
         if(res.status === 200){
-            console.log("Chat request sent successfully");
             return await res.data;
         }
         throw new Error(res.data.message);

@@ -1,12 +1,21 @@
 import { Box, Button, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import CustomizedInput from '../utils/customizedMuiComponents/CustomizedInput'
 import { Constants } from '../constants/constants'
 import { FiLogIn } from 'react-icons/fi'
 import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 const Signup = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
+
+  // if signed up then move to chat page
+  useEffect(() => {
+    if (auth?.isLoggedIn && auth?.user) {
+      return navigate('/chat');
+    }
+  }, [auth])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -16,7 +25,7 @@ const Signup = () => {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     console.log(username, email, password)
-    
+
     auth?.signup(username, email, password).then((res) => {
       console.log('User signed up successfully');
     }).catch((err) => {

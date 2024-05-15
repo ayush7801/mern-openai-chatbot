@@ -2,6 +2,7 @@ import { Avatar, Box, Button, IconButton, MenuItem, Select, Typography } from '@
 import { MdOutlineArrowUpward } from 'react-icons/md';
 import toast from 'react-hot-toast';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Constants } from '../constants/constants';
 import { red } from '@mui/material/colors';
@@ -21,9 +22,17 @@ type chatMessagesType = {
 
 const Chats = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
   const [chatMessages, setChatMessages] = useState<chatMessagesType[]>([]);
   const messageInputRef = useRef<HTMLInputElement>(null);
   const lastChatItemRef = useRef<HTMLDivElement>(null);
+
+  // if not logged in then move back to login page
+  useEffect(() => {
+    if (!auth?.isLoggedIn || !auth?.user) {
+      return navigate('/login');
+    }
+  }, [auth])
 
   useEffect(() => {
       if(auth?.isLoggedIn && auth?.user !== null){

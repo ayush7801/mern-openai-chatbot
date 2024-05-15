@@ -3,9 +3,19 @@ import CustomizedInput from '../utils/customizedMuiComponents/CustomizedInput'
 import { FiLogIn } from "react-icons/fi";
 import { Constants } from '../constants/constants';
 import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Login = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
+
+  // if logged in then move to chat page
+  useEffect(() => {
+    if (auth?.isLoggedIn && auth?.user) {
+      return navigate('/chat');
+    }
+  }, [auth])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

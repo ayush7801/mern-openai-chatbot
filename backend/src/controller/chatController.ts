@@ -33,7 +33,7 @@ const generateChatCompletion = async (req: Request, res: Response, next: NextFun
         // });
 
         // ...
-        console.log("chats", ...filterdChats);
+    
         const chatInstance = await geminiConfigObject.getGeminiModel().startChat({
             history: filterdChats,
             generationConfig: {
