@@ -54,6 +54,8 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
             path: '/',
             domain: Constants.DOMAIN_NAME,
             signed: true,
+            sameSite: 'none',
+            secure: true,
             expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             httpOnly: true 
         });
@@ -107,6 +109,8 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
                     path: '/',
                     domain: Constants.DOMAIN_NAME,
                     signed: true,
+                    sameSite: 'none',
+                    secure: true,
                     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                     httpOnly: true 
                 });
@@ -182,7 +186,7 @@ const userLogout = async (req: Request, res: Response, next: NextFunction) => {
         // User Logout
         res.clearCookie(Constants.AUTH_COOKIE_NAME, {
             path: '/',
-            domain: 'localhost',
+            domain: Constants.DOMAIN_NAME,
             signed: true,
             httpOnly: true
         });
