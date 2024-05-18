@@ -42,7 +42,7 @@ const Home = () => {
 
   return <>
     <Box className='home-container' width={'100%'} height={'100%'}>
-      <Box sx={{display: 'flex', width: '100%', maxHeight: '84.4vh', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', mx: 'auto', mt: '3rem'}}>
+      <Box sx={{display: 'flex', width: '100%', height: '84.4vh', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', mx: 'auto', mt: '3rem'}}>
         <Box sx={{maxHeight: '50vh', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', width: '100%', gap: 8}}>
           <Box sx={{width: '100%', display:'flex', flexDirection: 'column', justifyContent: 'flex-end', alignItems: 'center', flex: 1}}>
             <TypingAnimation />
