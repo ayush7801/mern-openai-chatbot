@@ -3,7 +3,7 @@ import CustomizedInput from '../utils/customizedMuiComponents/CustomizedInput'
 import { FiLogIn } from "react-icons/fi";
 import { Constants } from '../constants/constants';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const Login = () => {
@@ -43,7 +43,10 @@ const Login = () => {
           <CustomizedInput name='password' label='Password' type='password' />
           <Button type='submit' sx={{px:2, py: 1, mt:2, width: "100%", borderRadius: 2, bgcolor: "#ccc", color: '#fff', fontSize: '20px',':hover': {bgcolor: "#888888"}}} endIcon={<FiLogIn />} >
             LogIn
-          </Button>
+          </Button> 
+          <Typography variant='h6' color={'#666'} sx={{marginTop: '3rem', fontSize: '1rem'}}>
+            Don't have an account? <Link to='/signup' color='#111' style={{textDecoration: 'none', paddingLeft: '0.3rem'}}>Sign up</Link>
+          </Typography>
         </form>
       </Box>
     </Box>

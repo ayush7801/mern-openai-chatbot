@@ -101,4 +101,17 @@ const logOut = async () => {
     }
 }
 
-export { userLoginAPI, userTokenAuthentication, sendChatRequest, getChatHistory, clearChat, logOut, usersignupAPI }
+const getDummyResponse = async (message : string) => {
+    try {
+        const response = await axios.post('/chats/getSingleResponse', {message});
+        if(response.status === 200){
+            return await response.data;
+        }
+        throw new Error("response status is not 200");
+    } catch (error) {
+        console.error(`Some error occurred while getting first response user with status code ${(error as any)?.response?.status}: and message: ${(error as any)?.response?.data?.message}`);
+        return error;
+    }
+}
+
+export { userLoginAPI, userTokenAuthentication, sendChatRequest, getChatHistory, clearChat, logOut, usersignupAPI, getDummyResponse }

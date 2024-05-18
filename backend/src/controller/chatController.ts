@@ -107,4 +107,23 @@ const clearChat = async (req: Request, res: Response, next: NextFunction) => {
     }
 }
 
-export { generateChatCompletion, getChatHistory, clearChat };
+const getSingleResponse = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        console.log("get Single response")
+        const userMessage = req.body.message;
+        const aiResponse = await geminiConfigObject.getGeminiModel().generateContent(userMessage);
+        const modelMessage = await aiResponse.response.text() || "Hi There, How are you doing today? 👋";
+        return res.status(200).json({
+            status: 'success',
+            message: modelMessage
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            status: 'fail',
+            message: err.message
+        });
+    }
+}
+
+export { generateChatCompletion, getChatHistory, clearChat, getSingleResponse };

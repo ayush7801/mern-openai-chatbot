@@ -4,7 +4,7 @@ import CustomizedInput from '../utils/customizedMuiComponents/CustomizedInput'
 import { Constants } from '../constants/constants'
 import { FiLogIn } from 'react-icons/fi'
 import { useAuth } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Signup = () => {
   const auth = useAuth();
@@ -46,6 +46,9 @@ const Signup = () => {
           <Button type='submit' sx={{px:2, py: 1, mt:2, width: "100%", borderRadius: 2, bgcolor: "#ccc", color: '#fff', fontSize: '20px',':hover': {bgcolor: "#888888"}}} endIcon={<FiLogIn />} >
             Sign Up
           </Button>
+          <Typography variant='h6' color={'#666'} sx={{marginTop: '3rem', fontSize: '1rem'}}>
+            Already have an account? <Link to='/login' color='#111' style={{textDecoration: 'none', paddingLeft: '0.3rem'}}> Log in</Link>
+          </Typography>
         </form>
       </Box>
     </Box>
