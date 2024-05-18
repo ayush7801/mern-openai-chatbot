@@ -26,7 +26,7 @@ const Signup = () => {
     const password = formData.get('password') as string;
     console.log(username, email, password)
 
-    auth?.signup(username, email, password).then((res) => {
+    auth?.signup(username, email, password).then(() => {
       console.log('User signed up successfully');
     }).catch((err) => {
       console.log('Some error occurred while signing up user: ', err);

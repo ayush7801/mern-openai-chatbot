@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material'
+import { Box, Button } from '@mui/material'
 import React, { useRef, useState } from 'react'
 import TypingAnimation from '../utils/TypingAnimation'
 import { MdOutlineArrowUpward } from 'react-icons/md'

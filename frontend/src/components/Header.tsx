@@ -1,4 +1,3 @@
-import React from 'react'
 import { AppBar, Toolbar } from '@mui/material'
 import Logo from '../utils/Logo'
 import NavigationLink from '../utils/NavigationLink'
