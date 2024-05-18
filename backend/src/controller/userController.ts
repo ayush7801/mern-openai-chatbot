@@ -40,7 +40,7 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
         // clear previous cookies and send new cookie with jwt token
         res.clearCookie(Constants.AUTH_COOKIE_NAME, {
             path: '/',
-            domain: 'localhost',
+            domain: Constants.DOMAIN_NAME,
             signed: true,
             httpOnly: true
         });
@@ -52,7 +52,7 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
         const token = createToken(payload, '7d');
         res.cookie(Constants.AUTH_COOKIE_NAME, token, { 
             path: '/',
-            domain: 'localhost',
+            domain: Constants.DOMAIN_NAME,
             signed: true,
             expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             httpOnly: true 
@@ -94,7 +94,7 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
                 // clear previous cookies and send new cookie with jwt token
                 res.clearCookie(Constants.AUTH_COOKIE_NAME, {
                     path: '/',
-                    domain: 'localhost',
+                    domain: Constants.DOMAIN_NAME,
                     signed: true,
                     httpOnly: true
                 });
@@ -105,7 +105,7 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
                 const token = createToken(payload, '7d');
                 res.cookie(Constants.AUTH_COOKIE_NAME, token, { 
                     path: '/',
-                    domain: 'localhost',
+                    domain: Constants.DOMAIN_NAME,
                     signed: true,
                     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
                     httpOnly: true 
