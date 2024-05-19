@@ -3,7 +3,6 @@ import React, { useRef, useState } from 'react'
 import TypingAnimation from '../utils/TypingAnimation'
 import { MdOutlineArrowUpward } from 'react-icons/md'
 
-import './Home.css'
 import './Chats.css'
 import toast from 'react-hot-toast'
 import ChatItem from '../components/ChatItem'

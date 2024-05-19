@@ -11,7 +11,7 @@ config();
 const app = express();
 
 // Middlewares
-app.use(cors({origin: 'https://dinogpt.netlify.app', credentials: true}));
+app.use(cors({origin: 'https://mern-openai-chatbot.onrender.com', credentials: true}));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(morgan('dev'));
