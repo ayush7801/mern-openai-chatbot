@@ -40,7 +40,7 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
         // clear previous cookies and send new cookie with jwt token
         res.clearCookie(Constants.AUTH_COOKIE_NAME, {
             path: '/',
-            domain: Constants.DOMAIN_NAME,
+            domain: Constants.CLIENT_DOMAIN_NAME,
             signed: true,
             httpOnly: true
         });
@@ -52,7 +52,7 @@ const userSignup = async (req: Request, res: Response, next: NextFunction) => {
         const token = createToken(payload, '7d');
         res.cookie(Constants.AUTH_COOKIE_NAME, token, { 
             path: '/',
-            domain: Constants.DOMAIN_NAME,
+            domain: Constants.CLIENT_DOMAIN_NAME,
             signed: true,
             sameSite: 'none',
             secure: true,
@@ -96,7 +96,7 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
                 // clear previous cookies and send new cookie with jwt token
                 res.clearCookie(Constants.AUTH_COOKIE_NAME, {
                     path: '/',
-                    domain: Constants.DOMAIN_NAME,
+                    domain: Constants.CLIENT_DOMAIN_NAME,
                     signed: true,
                     httpOnly: true
                 });
@@ -107,7 +107,7 @@ const userLogin = async (req: Request, res: Response, next: NextFunction) => {
                 const token = createToken(payload, '7d');
                 res.cookie(Constants.AUTH_COOKIE_NAME, token, { 
                     path: '/',
-                    domain: Constants.DOMAIN_NAME,
+                    domain: Constants.CLIENT_DOMAIN_NAME,
                     signed: true,
                     sameSite: 'none',
                     secure: true,
@@ -186,7 +186,7 @@ const userLogout = async (req: Request, res: Response, next: NextFunction) => {
         // User Logout
         res.clearCookie(Constants.AUTH_COOKIE_NAME, {
             path: '/',
-            domain: Constants.DOMAIN_NAME,
+            domain: Constants.CLIENT_DOMAIN_NAME,
             signed: true,
             httpOnly: true
         });
