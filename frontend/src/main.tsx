@@ -6,7 +6,7 @@ import { createTheme, ThemeProvider } from '@mui/material'
 import { Toaster } from 'react-hot-toast'
 
 import axios from 'axios'
-axios.defaults.baseURL = 'https://mern-openai-chatbot.onrender.com/api/v1';
+axios.defaults.baseURL = 'https://api.dinogpt.site/api/v1';
 axios.defaults.withCredentials = true;
 
 import './index.css'
