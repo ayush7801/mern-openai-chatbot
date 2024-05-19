@@ -1,7 +1,7 @@
 export class Constants {
     public static readonly AUTH_COOKIE_NAME: string = 'auth-cookie';
 
-    public static readonly CLIENT_DOMAIN_NAME: string = '.onrender.com';
+    public static readonly CLIENT_DOMAIN_NAME: string = '.netlify.app';
 
     public static readonly OPENAI_API_MODEL: string = 'gpt-3.5-turbo';
   
